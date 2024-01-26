@@ -1,0 +1,49 @@
+---
+title: "Assignment 0"
+editor: Michaela Stamer
+---
+
+```{r}
+rm(list = ls())
+```
+
+```{r}
+library(tidyverse)
+library(rmarkdown)
+library(rpart)
+library(rpart.plot)
+library(caret)
+library(GGally)
+```
+
+Load in the data set.
+
+```{r}
+loan = read_csv("loan_default_data_set.csv")
+```
+
+This data set contains 20000 rows, or instances. The data set contains 21 columns, or variables. The column names are `tot_balance` , `avg_bal_cards` , `credit_age`, `credit_age_good_account`, `credit_card_age`, `num_acc_30d_past_due_12_months`, `num_acc_30d_past_due_6_months`, `num_morgtage_currently_past_due`, `tot_amount_currently_past_due`, `num_inq_12_month`, `num_card_inq_24_month`, `num_card_12_month`, `num_auto_36_month`, `uti_open_card`, `pct_over_50_uti`, `uti_max_credit_line`, `pct_card_over_50_uti`, `ind_XYZ`, `rep_income`, `rep_education`, and `Def_ind`. Mostly all of the columns or variables are numerical values. Some of the columns are numbers but they are technically categorical, like `Def_ind` for example. It is a numerical value, but it is either binary (value 1) or not defaulted (value 0). This would make sense why the summary for this variable and some others similar to it won't make much sense for the data.
+
+```{r}
+summary(loan)
+```
+
+We can also get other data from this summary. We can understand things like averages, median, min and max for example. `Rep_income` is a good example in the summary of a numerical variable that can be represented well by the summary. The minimum annual income is \$20,000, and the maximum is \$300,000. The average annual income in \$166,374.
+
+We can see from the summary that we have some missing values. We can remove these to clean up the data.
+
+```{r}
+loan = loan %>%
+  drop_na()
+```
+
+We can now add a visual to our data to better understand it. A simple correlation plot is an easy way to compare our data and to find trends.
+
+```{r}
+#| message : false
+loan%>%
+  select(rep_income,tot_balance)%>%
+  ggpairs()
+```
+
+For example, from the plot, we can see that the correlation between `rep_income` and `tot_balance` is very low. It is 0.003 which is positive, but very little correlation between the two variables.
