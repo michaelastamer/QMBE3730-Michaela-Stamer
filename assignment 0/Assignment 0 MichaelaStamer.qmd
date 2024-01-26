@@ -18,6 +18,8 @@ library(GGally)
 
 Load in the data set.
 
+MIchaela
+
 ```{r}
 loan = read_csv("loan_default_data_set.csv")
 ```
